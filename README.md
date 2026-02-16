@@ -3,7 +3,7 @@
 A full-stack web application to teach and learn community languages.  
 Built with **Node.js**, **Express.js**, **MySQL**, **Pug**, and styled with **CSS/JS**. Docker is used for easy setup and deployment.
 
----
+
 
 ## 🚀 Features
 
