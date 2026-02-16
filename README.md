@@ -15,7 +15,7 @@ Built with **Node.js**, **Express.js**, **MySQL**, **Pug**, and styled with **CS
 - CI/CD pipeline using GitHub Actions
 - Dockerized backend and database
 
----
+
 
 ## 🐳 Running with Docker
 
