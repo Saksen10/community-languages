@@ -7,7 +7,7 @@ Built with **Node.js**, **Express.js**, **MySQL**, **Pug**, and styled with **CS
 
 ## 🚀 Features
 
-- User registration and login
+- User login and registration
 - View, add, edit, and delete community languages
 - Access learning materials for each language
 - Search languages by name
