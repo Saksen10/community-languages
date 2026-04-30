@@ -1,0 +1,94 @@
+//- views/index.pug — Home page
+extends layout
+
+block content
+  //- Hero section
+  section.hero
+    .container
+      h1 Learn and Share Community Languages
+      p Connect with native speakers, explore new cultures, and help preserve languages that matter. Join our community of learners and teachers sharing knowledge freely.
+      .hero-buttons
+        a.btn.btn-primary(href="/lessons") 📚 Start Learning
+        a.btn.btn-secondary(href="/register") 🎓 Become a Teacher
+
+  //- Stats bar
+  section.stats-bar
+    .stats-grid
+      div
+        .stat-number= stats ? stats.users : '0'
+        .stat-label Community Members
+      div
+        .stat-number= stats ? stats.lessons : '0'
+        .stat-label Lessons Available
+      div
+        .stat-number= stats ? stats.languages : '0'
+        .stat-label Languages
+      div
+        .stat-number= stats ? stats.teachers : '0'
+        .stat-label Teachers
+
+  //- Features section
+  section.section.features
+    .container
+      .section-header
+        h2 Why Community Languages?
+        p Preserving linguistic diversity through sharing, exchange, and community building
+      .card-grid
+        .card.feature-card
+          .feature-icon 🤝
+          h3 Share Knowledge
+          p Native speakers share their language with learners in a supportive, non-commercial environment.
+        .card.feature-card
+          .feature-icon 🌱
+          h3 Preserve Heritage
+          p Help keep community languages alive for future generations through accessible learning.
+        .card.feature-card
+          .feature-icon 🔗
+          h3 Build Connections
+          p Connect with people from diverse backgrounds and build meaningful community bonds.
+
+  //- Featured Lessons
+  if featuredLessons && featuredLessons.length
+    section.section
+      .container
+        .section-header
+          h2 Featured Lessons
+          p Start your language learning journey today
+        .card-grid
+          each lesson in featuredLessons
+            .card
+              .card-body
+                h3
+                  a(href=`/lessons/${lesson.id}`)= lesson.title
+                p= lesson.description ? lesson.description.substring(0, 120) + '...' : ''
+                .card-meta
+                  span.badge.badge-primary= lesson.language_name
+                  span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
+              .card-footer
+                span.text-muted By #{lesson.teacher_name}
+                a.btn.btn-sm.btn-outline(href=`/lessons/${lesson.id}`) View Lesson
+
+  //- Languages section
+  if languages && languages.length
+    section.section
+      .container
+        .section-header
+          h2 Explore Languages
+          p Discover the rich diversity of community languages
+        .card-grid
+          each lang in languages.slice(0, 6)
+            .card
+              .card-body
+                h3= lang.name
+                p= lang.description ? lang.description.substring(0, 100) + '...' : ''
+              .card-footer
+                a.btn.btn-sm.btn-outline(href=`/lessons?language=${lang.id}`) Browse Lessons
+
+  //- CTA section
+  section.section(style="background: var(--bg-white); text-align: center;")
+    .container
+      h2(style="color: var(--primary); margin-bottom: 16px;") Ready to Get Started?
+      p(style="color: var(--text-light); margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto;") Whether you want to learn a new language or share your native tongue, there is a place for you here.
+      .hero-buttons
+        a.btn.btn-primary(href="/register") Join Our Community
+        a.btn.btn-outline(href="/about") Learn More

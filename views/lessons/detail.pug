@@ -1,0 +1,90 @@
+//- views/lessons/detail.pug — Lesson detail page
+extends ../layout
+
+block content
+  section.section
+    .container
+      .lesson-detail
+        .lesson-detail-header
+          .card-meta(style="margin-bottom: 12px;")
+            span.badge.badge-primary= lesson.language_name
+            span.badge.badge-warning= lesson.category_name
+            span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
+          h1= lesson.title
+          p(style="color: var(--text-light); margin-top: 8px;")
+            | By #[a(href=`/users/${lesson.teacher_id}`)= lesson.teacher_name]
+            |  · #{new Date(lesson.created_at).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+
+        //- Lesson content
+        .lesson-detail-content
+          div!= lesson.content ? lesson.content.replace(/\n/g, '<br>') : ''
+
+          //- Vocabulary section
+          if lesson.vocabulary
+            h3 📝 Vocabulary
+            ul.vocab-list
+              each item in lesson.vocabulary.split('\n').filter(v => v.trim())
+                li= item
+
+          //- Media link
+          if lesson.media_url
+            h3 🎥 Media Resource
+            p
+              a(href=lesson.media_url target="_blank" rel="noopener") Watch / Listen →
+
+          //- Tags
+          if tags && tags.length
+            div(style="margin-top: 24px;")
+              each tag in tags
+                a.tag(href=`/lessons?search=${tag.name}` style="margin-right: 6px;") ##{tag.name}
+
+        //- Actions sidebar
+        .lesson-sidebar
+          //- Mark as complete (learners only)
+          if currentUser && currentUser.role === 'learner'
+            if isCompleted
+              .badge.badge-accent(style="padding: 10px 20px; font-size: 1rem;") ✅ Lesson Completed
+            else
+              form(action=`/lessons/${lesson.id}/complete` method="POST" style="margin-bottom: 16px;")
+                button.btn.btn-primary.btn-block(type="submit") ✅ Mark as Complete
+
+          //- Edit/Delete (owner only)
+          if currentUser && currentUser.id === lesson.teacher_id
+            div(style="display: flex; gap: 12px; margin-bottom: 16px;")
+              a.btn.btn-outline(href=`/lessons/${lesson.id}/edit`) ✏️ Edit
+              form.confirm-delete(action=`/lessons/${lesson.id}/delete` method="POST" style="display: inline;")
+                button.btn.btn-danger(type="submit") 🗑️ Delete
+
+        //- Quiz section
+        if quizQuestions && quizQuestions.length
+          .quiz-section
+            h2 📝 Quiz — Test Your Knowledge
+            if quizResult !== undefined && quizResult !== null
+              .quiz-result(class=quizResult.score >= quizResult.total / 2 ? 'pass' : 'fail')
+                p You scored #{quizResult.score} out of #{quizResult.total}!
+                if quizResult.score >= quizResult.total / 2
+                  p 🎉 Great job!
+                else
+                  p 💪 Keep practising!
+            else
+              form(action=`/lessons/${lesson.id}/quiz` method="POST")
+                each question, index in quizQuestions
+                  .quiz-question
+                    p #{index + 1}. #{question.question_text}
+                    .quiz-options
+                      label
+                        input(type="radio" name=`q_${question.id}` value="A" required)
+                        |  A) #{question.option_a}
+                      label
+                        input(type="radio" name=`q_${question.id}` value="B")
+                        |  B) #{question.option_b}
+                      label
+                        input(type="radio" name=`q_${question.id}` value="C")
+                        |  C) #{question.option_c}
+                      label
+                        input(type="radio" name=`q_${question.id}` value="D")
+                        |  D) #{question.option_d}
+                button.btn.btn-primary(type="submit") Submit Quiz
+
+      div(style="margin-top: 32px;")
+        a.btn.btn-outline(href="/lessons") ← Back to Lessons

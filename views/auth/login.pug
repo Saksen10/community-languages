@@ -1,0 +1,19 @@
+//- views/auth/login.pug — Login page
+extends ../layout
+
+block content
+  section.section
+    .container
+      .form-card
+        h2 🔑 Log In
+        form(action="/login" method="POST")
+          .form-group
+            label(for="email") Email Address
+            input#email.form-control(type="email" name="email" required placeholder="you@example.com")
+          .form-group
+            label(for="password") Password
+            input#password.form-control(type="password" name="password" required placeholder="Your password")
+          button.btn.btn-primary.btn-block(type="submit") Log In
+        p(style="text-align: center; margin-top: 16px; color: var(--text-light);")
+          | Don't have an account?
+          a(href="/register")  Register here

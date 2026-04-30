@@ -1,0 +1,61 @@
+//- views/dashboard/teacher.pug — Teacher dashboard
+extends ../layout
+
+block content
+  .page-header
+    .container
+      h1 Welcome, #{currentUser.name}!
+      p Your teaching dashboard
+
+  section.section
+    .container
+      //- Stats
+      .dashboard-grid
+        .dashboard-stat
+          .stat-icon 📚
+          .stat-number= lessonCount || 0
+          .stat-label Lessons Created
+        .dashboard-stat
+          .stat-icon 👥
+          .stat-number= learnerCount || 0
+          .stat-label Learners Reached
+        .dashboard-stat
+          .stat-icon 📝
+          .stat-number= quizAttempts || 0
+          .stat-label Quiz Attempts
+        .dashboard-stat
+          .stat-icon ⭐
+          .stat-number= currentUser.points || 0
+          .stat-label Points Earned
+
+      //- Actions
+      div(style="margin-bottom: 32px;")
+        a.btn.btn-primary(href="/lessons/create") ➕ Create New Lesson
+
+      //- My lessons
+      if lessons && lessons.length
+        .section-header(style="text-align: left;")
+          h2 📚 Your Lessons
+        .card-grid
+          each lesson in lessons
+            .card
+              .card-body
+                h3
+                  a(href=`/lessons/${lesson.id}`)= lesson.title
+                p= lesson.description ? lesson.description.substring(0, 120) + '...' : ''
+                .card-meta
+                  span.badge.badge-primary= lesson.language_name
+                  span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
+              .card-footer
+                div
+                  a.btn.btn-sm.btn-outline(href=`/lessons/${lesson.id}/edit` style="margin-right: 8px;") ✏️ Edit
+                  form.confirm-delete(action=`/lessons/${lesson.id}/delete` method="POST" style="display: inline;")
+                    button.btn.btn-sm.btn-danger(type="submit") 🗑️
+                a.btn.btn-sm.btn-outline(href=`/lessons/${lesson.id}`) View
+      else
+        p(style="text-align: center; color: var(--text-light); padding: 40px;") You have not created any lessons yet. Click "Create New Lesson" to get started!
+
+      //- Quick links
+      div(style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;")
+        a.btn.btn-outline(href="/forum") 💬 Community Forum
+        a.btn.btn-outline(href=`/users/${currentUser.id}`) 👤 My Profile

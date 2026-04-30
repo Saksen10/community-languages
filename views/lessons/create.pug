@@ -1,0 +1,48 @@
+//- views/lessons/create.pug — Create lesson page
+extends ../layout
+
+block content
+  section.section
+    .container
+      .form-card(style="max-width: 700px;")
+        h2 📚 Create New Lesson
+        form(action="/lessons/create" method="POST")
+          .form-group
+            label(for="title") Lesson Title
+            input#title.form-control(type="text" name="title" required placeholder="e.g. Basic Yoruba Greetings")
+          .form-group
+            label(for="language_id") Language
+            select#language_id.form-control(name="language_id" required)
+              option(value="") Select a language
+              if languages
+                each lang in languages
+                  option(value=lang.id)= lang.name
+          .form-group
+            label(for="category_id") Category
+            select#category_id.form-control(name="category_id" required)
+              option(value="") Select a category
+              if categories
+                each cat in categories
+                  option(value=cat.id)= cat.name
+          .form-group
+            label(for="difficulty") Difficulty Level
+            select#difficulty.form-control(name="difficulty")
+              option(value="beginner") Beginner
+              option(value="intermediate") Intermediate
+              option(value="advanced") Advanced
+          .form-group
+            label(for="description") Short Description
+            textarea#description.form-control(name="description" required placeholder="Brief overview of this lesson..." rows="3")
+          .form-group
+            label(for="content") Lesson Content
+            textarea#content.form-control(name="content" required placeholder="Full lesson content. Use line breaks for formatting." rows="10")
+          .form-group
+            label(for="vocabulary") Vocabulary (one per line, format: word - meaning)
+            textarea#vocabulary.form-control(name="vocabulary" placeholder="Namaste - Hello\nDhanyavaad - Thank you" rows="5")
+          .form-group
+            label(for="media_url") Media URL (optional video/audio link)
+            input#media_url.form-control(type="url" name="media_url" placeholder="https://youtube.com/watch?v=...")
+          .form-group
+            label(for="tags") Tags (comma-separated)
+            input#tags.form-control(type="text" name="tags" placeholder="beginner, greetings, culture")
+          button.btn.btn-primary.btn-block(type="submit") Create Lesson

@@ -1,0 +1,42 @@
+//- views/forum/detail.pug — Forum post detail page
+extends ../layout
+
+block content
+  section.section
+    .container
+      .forum-post(style="margin-bottom: 32px;")
+        h2= post.title
+        .forum-post-meta
+          span 👤 #{post.user_name}
+          if post.language_name
+            span 🌍 #{post.language_name}
+          span 📅 #{new Date(post.created_at).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+        div(style="margin-top: 20px; line-height: 1.8;")
+          p= post.body
+
+      //- Comments
+      h3(style="margin-bottom: 16px;") 💬 Comments (#{comments ? comments.length : 0})
+
+      if comments && comments.length
+        each comment in comments
+          .comment
+            .comment-header
+              strong= comment.user_name
+              |  · #{new Date(comment.created_at).toLocaleDateString('en-GB')}
+            p= comment.body
+
+      //- Add comment form
+      if currentUser
+        div(style="margin-top: 32px;")
+          h3 Add a Comment
+          form(action=`/forum/${post.id}/comment` method="POST")
+            .form-group
+              textarea.form-control(name="body" required rows="3" placeholder="Share your thoughts...")
+            button.btn.btn-primary(type="submit") Post Comment
+      else
+        p(style="color: var(--text-light); margin-top: 24px;")
+          a(href="/login") Log in
+          |  to leave a comment.
+
+      div(style="margin-top: 32px;")
+        a.btn.btn-outline(href="/forum") ← Back to Forum

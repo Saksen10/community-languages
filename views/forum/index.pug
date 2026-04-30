@@ -1,0 +1,44 @@
+//- views/forum/index.pug — Forum listing page
+extends ../layout
+
+block content
+  .page-header
+    .container
+      div(style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;")
+        div
+          h1 Community Forum
+          p Ask questions, share tips, and connect with fellow language enthusiasts
+        if currentUser
+          a.btn.btn-primary(href="/forum/create") ➕ New Post
+
+  section.section
+    .container
+      //- Filter
+      form.filter-bar(action="/forum" method="GET")
+        .form-group
+          label Search
+          input.form-control(type="text" name="search" placeholder="Search posts..." value=(search || ''))
+        .form-group
+          label Language
+          select.form-control(name="language")
+            option(value="") All Languages
+            if languages
+              each lang in languages
+                option(value=lang.id selected=(language == lang.id))= lang.name
+        button.btn.btn-primary(type="submit") 🔍 Filter
+
+      //- Posts
+      if posts && posts.length
+        each post in posts
+          .forum-post
+            h3
+              a(href=`/forum/${post.id}`)= post.title
+            p= post.body ? post.body.substring(0, 200) + '...' : ''
+            .forum-post-meta
+              span 👤 #{post.user_name}
+              if post.language_name
+                span 🌍 #{post.language_name}
+              span 📅 #{new Date(post.created_at).toLocaleDateString('en-GB')}
+              span 💬 #{post.comment_count || 0} comment#{post.comment_count !== 1 ? 's' : ''}
+      else
+        p(style="text-align: center; color: var(--text-light); padding: 40px;") No forum posts yet. Be the first to start a discussion!

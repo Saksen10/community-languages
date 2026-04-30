@@ -1,0 +1,57 @@
+//- views/lessons/index.pug — Lessons listing page
+extends ../layout
+
+block content
+  .page-header
+    .container
+      h1 Browse Lessons
+      p Explore community language lessons created by our teachers
+
+  section.section
+    .container
+      //- Filter bar
+      form.filter-bar(action="/lessons" method="GET")
+        .form-group
+          label Search
+          input.form-control(type="text" name="search" placeholder="Search lessons..." value=(search || ''))
+        .form-group
+          label Language
+          select.form-control(name="language")
+            option(value="") All Languages
+            if languages
+              each lang in languages
+                option(value=lang.id selected=(language == lang.id))= lang.name
+        .form-group
+          label Category
+          select.form-control(name="category")
+            option(value="") All Categories
+            if categories
+              each cat in categories
+                option(value=cat.id selected=(category == cat.id))= cat.name
+        .form-group
+          label Difficulty
+          select.form-control(name="difficulty")
+            option(value="") All Levels
+            option(value="beginner" selected=(difficulty === 'beginner')) Beginner
+            option(value="intermediate" selected=(difficulty === 'intermediate')) Intermediate
+            option(value="advanced" selected=(difficulty === 'advanced')) Advanced
+        button.btn.btn-primary(type="submit") 🔍 Filter
+
+      if lessons && lessons.length
+        p(style="color: var(--text-light); margin-bottom: 20px;") Showing #{lessons.length} lesson#{lessons.length !== 1 ? 's' : ''}
+        .card-grid
+          each lesson in lessons
+            .card
+              .card-body
+                h3
+                  a(href=`/lessons/${lesson.id}`)= lesson.title
+                p= lesson.description ? lesson.description.substring(0, 140) + '...' : ''
+                .card-meta
+                  span.badge.badge-primary= lesson.language_name
+                  span.badge.badge-warning= lesson.category_name
+                  span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
+              .card-footer
+                span.text-muted 👤 #{lesson.teacher_name}
+                a.btn.btn-sm.btn-outline(href=`/lessons/${lesson.id}`) View Lesson
+      else
+        p(style="text-align: center; color: var(--text-light); padding: 40px;") No lessons found. Try adjusting your filters.

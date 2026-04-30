@@ -1,0 +1,39 @@
+//- views/auth/register.pug — Registration page
+extends ../layout
+
+block content
+  section.section
+    .container
+      .form-card(style="max-width: 600px;")
+        h2 🎓 Create Account
+        form(action="/register" method="POST")
+          .form-group
+            label(for="name") Full Name
+            input#name.form-control(type="text" name="name" required placeholder="Your full name")
+          .form-group
+            label(for="email") Email Address
+            input#email.form-control(type="email" name="email" required placeholder="you@example.com")
+          .form-group
+            label(for="password") Password
+            input#password.form-control(type="password" name="password" required minlength="6" placeholder="At least 6 characters")
+          .form-group
+            label(for="role") I want to
+            select#role.form-control(name="role" required)
+              option(value="learner") Learn Languages
+              option(value="teacher") Teach Languages
+          .form-group
+            label(for="bio") About You (optional)
+            textarea#bio.form-control(name="bio" rows="3" placeholder="Tell us a bit about yourself...")
+          .form-group
+            label(for="spoken_languages") Languages You Speak
+            input#spoken_languages.form-control(type="text" name="spoken_languages" placeholder="e.g. English, Hindi")
+          .form-group
+            label(for="learning_interests") Languages You Want to Learn
+            input#learning_interests.form-control(type="text" name="learning_interests" placeholder="e.g. Yoruba, Arabic")
+          .form-group
+            label(for="community_location") Your Community / Location
+            input#community_location.form-control(type="text" name="community_location" placeholder="e.g. London, UK")
+          button.btn.btn-primary.btn-block(type="submit") Create Account
+        p(style="text-align: center; margin-top: 16px; color: var(--text-light);")
+          | Already have an account?
+          a(href="/login")  Log in here

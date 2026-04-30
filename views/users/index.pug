@@ -1,0 +1,59 @@
+//- views/users/index.pug — Users list page
+extends ../layout
+
+block content
+  .page-header
+    .container
+      h1 Community Members
+      p Browse our community of learners and teachers
+
+  section.section
+    .container
+      //- Filter bar
+      form.filter-bar(action="/users" method="GET")
+        .form-group
+          label Search
+          input.form-control(type="text" name="search" placeholder="Search by name..." value=(search || ''))
+        .form-group
+          label Role
+          select.form-control(name="role")
+            option(value="") All Roles
+            option(value="teacher" selected=(role === 'teacher')) Teachers
+            option(value="learner" selected=(role === 'learner')) Learners
+        .form-group
+          label Language
+          select.form-control(name="language")
+            option(value="") All Languages
+            if languages
+              each lang in languages
+                option(value=lang.id selected=(language == lang.id))= lang.name
+        button.btn.btn-primary(type="submit") 🔍 Filter
+
+      //- Results count
+      if users && users.length
+        p(style="color: var(--text-light); margin-bottom: 20px;") Showing #{users.length} member#{users.length !== 1 ? 's' : ''}
+
+      //- User cards grid
+      if users && users.length
+        .card-grid
+          each user in users
+            .card
+              .card-body
+                div(style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;")
+                  .profile-avatar(style="width: 50px; height: 50px; font-size: 1.2rem;")= user.name ? user.name.charAt(0).toUpperCase() : '?'
+                  div
+                    h3
+                      a(href=`/users/${user.id}`)= user.name
+                    span.badge(class=user.role === 'teacher' ? 'badge-accent' : 'badge-primary')= user.role
+                if user.bio
+                  p= user.bio.substring(0, 100) + (user.bio.length > 100 ? '...' : '')
+                .card-meta
+                  if user.spoken_languages
+                    span.tag 🗣️ #{user.spoken_languages}
+                  if user.community_location
+                    span.tag 📍 #{user.community_location}
+              .card-footer
+                span.badge.badge-warning ⭐ #{user.points || 0} points
+                a.btn.btn-sm.btn-outline(href=`/users/${user.id}`) View Profile
+      else
+        p(style="text-align: center; color: var(--text-light); padding: 40px;") No members found matching your criteria.

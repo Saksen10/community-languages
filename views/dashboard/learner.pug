@@ -1,0 +1,65 @@
+//- views/dashboard/learner.pug — Learner dashboard
+extends ../layout
+
+block content
+  .page-header
+    .container
+      h1 Welcome, #{currentUser.name}!
+      p Your learning dashboard
+
+  section.section
+    .container
+      //- Stats
+      .dashboard-grid
+        .dashboard-stat
+          .stat-icon 📚
+          .stat-number= completedCount || 0
+          .stat-label Lessons Completed
+        .dashboard-stat
+          .stat-icon 📝
+          .stat-number= quizCount || 0
+          .stat-label Quizzes Taken
+        .dashboard-stat
+          .stat-icon ⭐
+          .stat-number= currentUser.points || 0
+          .stat-label Points Earned
+
+      //- Recommended lessons
+      if recommended && recommended.length
+        .section-header(style="text-align: left; margin-top: 32px;")
+          h2 🎯 Recommended for You
+        .card-grid
+          each lesson in recommended
+            .card
+              .card-body
+                h3
+                  a(href=`/lessons/${lesson.id}`)= lesson.title
+                p= lesson.description ? lesson.description.substring(0, 120) + '...' : ''
+                .card-meta
+                  span.badge.badge-primary= lesson.language_name
+                  span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
+              .card-footer
+                span.text-muted 👤 #{lesson.teacher_name}
+                a.btn.btn-sm.btn-outline(href=`/lessons/${lesson.id}`) Start
+
+      //- Recently completed
+      if completedLessons && completedLessons.length
+        .section-header(style="text-align: left; margin-top: 32px;")
+          h2 ✅ Recently Completed
+        .card-grid
+          each lesson in completedLessons
+            .card
+              .card-body
+                h3
+                  a(href=`/lessons/${lesson.id}`)= lesson.title
+                .card-meta
+                  span.badge.badge-primary= lesson.language_name
+                  span.badge.badge-accent Completed
+              .card-footer
+                span.text-muted= lesson.completed_at ? new Date(lesson.completed_at).toLocaleDateString('en-GB') : ''
+
+      //- Quick links
+      div(style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;")
+        a.btn.btn-primary(href="/lessons") 📚 Browse Lessons
+        a.btn.btn-outline(href="/forum") 💬 Community Forum
+        a.btn.btn-outline(href=`/users/${currentUser.id}`) 👤 My Profile

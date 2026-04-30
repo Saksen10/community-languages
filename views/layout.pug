@@ -1,0 +1,65 @@
+//- views/layout.pug — Master layout template
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(name="description" content="Community Languages: Teach and Learn — Preserve and share community languages")
+    title #{title ? title + ' | ' : ''}Community Languages
+    link(rel="stylesheet" href="/css/style.css")
+  body
+    //- Header navigation
+    header.header
+      nav.nav
+        a.nav-brand(href="/")
+          span 🌍
+          | Community Languages
+        button.nav-toggle(aria-label="Toggle navigation") ☰
+        .nav-links
+          a(href="/" class=(currentPath === '/' ? 'active' : '')) Home
+          a(href="/about" class=(currentPath === '/about' ? 'active' : '')) About
+          a(href="/lessons" class=(currentPath === '/lessons' ? 'active' : '')) Lessons
+          a(href="/categories" class=(currentPath === '/categories' ? 'active' : '')) Languages
+          a(href="/users" class=(currentPath === '/users' ? 'active' : '')) Users
+          a(href="/forum" class=(currentPath === '/forum' ? 'active' : '')) Forum
+          if currentUser
+            a(href="/dashboard" class=(currentPath === '/dashboard' ? 'active' : '')) Dashboard
+            a(href="/logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();") Logout
+            form#logout-form(action="/logout" method="POST" style="display:none")
+          else
+            a(href="/login" class=(currentPath === '/login' ? 'active' : '')) Login
+            a(href="/register" class=(currentPath === '/register' ? 'active' : '')) Register
+
+    //- Flash messages
+    .container
+      if success && success.length
+        each msg in success
+          .flash.flash-success= msg
+      if error && error.length
+        each msg in error
+          .flash.flash-error= msg
+
+    //- Main content
+    main
+      block content
+
+    //- Footer
+    footer.footer
+      .footer-content
+        div
+          h4 🌍 Community Languages
+          p Preserving and sharing community languages through education and connection.
+        div
+          h4 Quick Links
+          a(href="/lessons") Browse Lessons
+          a(href="/categories") Languages
+          a(href="/users") Find Teachers
+          a(href="/forum") Community Forum
+        div
+          h4 Get Involved
+          a(href="/register") Create Account
+          a(href="/about") About Us
+      .footer-bottom
+        p &copy; #{new Date().getFullYear()} Community Languages: Teach and Learn — Language Connect
+
+    script(src="/js/main.js")

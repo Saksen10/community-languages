@@ -1,5 +1,27 @@
 {
-  "name": "community-languages-app",
+  "name": "community-languages",
   "version": "1.0.0",
-  "main": "backend/server.js"
+  "description": "Community Languages: Teach and Learn — A platform to preserve and share community languages",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "check": "node --check app.js"
+  },
+  "keywords": ["community", "languages", "education", "learning"],
+  "author": "Language Connect",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
+    "mysql2": "^3.11.0",
+    "pug": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
 }

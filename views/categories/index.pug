@@ -1,0 +1,53 @@
+//- views/categories/index.pug — Categories, Languages, Tags page
+extends ../layout
+
+block content
+  .page-header
+    .container
+      h1 Browse by Language, Category &amp; Tag
+      p Explore our lessons organised by language, topic, and skill
+
+  section.section
+    .container
+      //- Languages
+      .section-header(style="text-align: left;")
+        h2 🌍 Languages
+        p Choose a language to explore
+      if languages && languages.length
+        .card-grid
+          each lang in languages
+            .card
+              .card-body
+                h3= lang.name
+                p= lang.description ? lang.description.substring(0, 100) + '...' : ''
+                if lang.lesson_count !== undefined
+                  .card-meta
+                    span.badge.badge-primary #{lang.lesson_count} lesson#{lang.lesson_count !== 1 ? 's' : ''}
+              .card-footer
+                a.btn.btn-sm.btn-outline(href=`/lessons?language=${lang.id}`) Browse
+
+      //- Categories
+      .section-header(style="text-align: left; margin-top: 48px;")
+        h2 📂 Categories
+        p Browse by topic
+      if categories && categories.length
+        .card-grid
+          each cat in categories
+            .card
+              .card-body
+                h3= cat.name
+                p= cat.description ? cat.description.substring(0, 100) + '...' : ''
+                if cat.lesson_count !== undefined
+                  .card-meta
+                    span.badge.badge-warning #{cat.lesson_count} lesson#{cat.lesson_count !== 1 ? 's' : ''}
+              .card-footer
+                a.btn.btn-sm.btn-outline(href=`/lessons?category=${cat.id}`) Browse
+
+      //- Tags
+      .section-header(style="text-align: left; margin-top: 48px;")
+        h2 🏷️ Tags
+        p Quick access by topic tag
+      if tags && tags.length
+        div(style="display: flex; flex-wrap: wrap; gap: 10px;")
+          each tag in tags
+            a.tag(href=`/lessons?search=${tag.name}` style="font-size: 0.95rem; padding: 8px 18px;") ##{tag.name}

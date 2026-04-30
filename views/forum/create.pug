@@ -1,0 +1,25 @@
+//- views/forum/create.pug — Create forum post page
+extends ../layout
+
+block content
+  section.section
+    .container
+      .form-card(style="max-width: 700px;")
+        h2 📝 Create Forum Post
+        form(action="/forum/create" method="POST")
+          .form-group
+            label(for="title") Title
+            input#title.form-control(type="text" name="title" required placeholder="Your question or discussion topic")
+          .form-group
+            label(for="language_id") Related Language (optional)
+            select#language_id.form-control(name="language_id")
+              option(value="") General / No specific language
+              if languages
+                each lang in languages
+                  option(value=lang.id)= lang.name
+          .form-group
+            label(for="body") Your Post
+            textarea#body.form-control(name="body" required rows="8" placeholder="Write your question or discussion here...")
+          button.btn.btn-primary.btn-block(type="submit") Post to Forum
+        div(style="margin-top: 16px; text-align: center;")
+          a(href="/forum") ← Back to Forum

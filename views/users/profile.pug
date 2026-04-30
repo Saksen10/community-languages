@@ -1,0 +1,73 @@
+//- views/users/profile.pug — User profile page
+extends ../layout
+
+block content
+  section.section
+    .container
+      //- Profile header
+      .profile-header
+        .profile-avatar= user.name ? user.name.charAt(0).toUpperCase() : '?'
+        .profile-info
+          h1= user.name
+          span.badge.role-badge(class=user.role === 'teacher' ? 'badge-accent' : 'badge-primary')= user.role
+          if user.bio
+            p(style="margin-top: 12px; color: var(--text-light);")= user.bio
+          .profile-stats
+            .profile-stat
+              span.stat-number= user.points || 0
+              span.stat-label Points
+            if user.role === 'teacher' && lessons
+              .profile-stat
+                span.stat-number= lessons.length
+                span.stat-label Lessons
+            if user.role === 'learner' && completedLessons
+              .profile-stat
+                span.stat-number= completedLessons.length
+                span.stat-label Completed
+          div(style="margin-top: 16px;")
+            if user.spoken_languages
+              p 🗣️ #[strong Speaks:] #{user.spoken_languages}
+            if user.learning_interests
+              p 📖 #[strong Learning:] #{user.learning_interests}
+            if user.community_location
+              p 📍 #[strong Community:] #{user.community_location}
+            if user.created_at
+              p 📅 #[strong Joined:] #{new Date(user.created_at).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+
+      //- Teacher's lessons
+      if user.role === 'teacher' && lessons && lessons.length
+        .section-header(style="text-align: left; margin-top: 40px;")
+          h2 Lessons by #{user.name}
+        .card-grid
+          each lesson in lessons
+            .card
+              .card-body
+                h3
+                  a(href=`/lessons/${lesson.id}`)= lesson.title
+                p= lesson.description ? lesson.description.substring(0, 120) + '...' : ''
+                .card-meta
+                  span.badge.badge-primary= lesson.language_name || 'Language'
+                  span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
+              .card-footer
+                span.text-muted= new Date(lesson.created_at).toLocaleDateString('en-GB')
+                a.btn.btn-sm.btn-outline(href=`/lessons/${lesson.id}`) View
+
+      //- Learner's completed lessons
+      if user.role === 'learner' && completedLessons && completedLessons.length
+        .section-header(style="text-align: left; margin-top: 40px;")
+          h2 Completed Lessons
+        .card-grid
+          each lesson in completedLessons
+            .card
+              .card-body
+                h3
+                  a(href=`/lessons/${lesson.id}`)= lesson.title
+                .card-meta
+                  span.badge.badge-primary= lesson.language_name || 'Language'
+                  span.badge.badge-accent ✅ Completed
+              .card-footer
+                span.text-muted= lesson.completed_at ? new Date(lesson.completed_at).toLocaleDateString('en-GB') : ''
+
+      //- Back link
+      div(style="margin-top: 32px;")
+        a.btn.btn-outline(href="/users") ← Back to Members
