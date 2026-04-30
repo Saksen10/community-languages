@@ -11,49 +11,43 @@ block content
     .container
       .about-section(style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; align-items: center; margin-bottom: 4rem;")
         .about-text
-          h2
-            svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="margin-right: 0.5rem; color: var(--primary);")
-              path(stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418")
+          h2.flex.items-center
+            span.material-symbols-outlined(style="margin-right: 0.5rem; color: var(--primary); font-size: 28px;") public
             | Why Community Languages Matter
           p(style="margin-bottom: 1rem; color: var(--text-muted);") Community languages are the languages spoken by minority or migrant communities within a larger society. They carry centuries of culture, identity, and heritage.
           p(style="color: var(--text-muted);") Many community languages are at risk of being lost as younger generations shift to dominant languages. Our platform aims to reverse this trend by making language learning accessible and community-driven.
         .about-card.card
           .card-body.text-center
             .feature-icon-wrapper
-              svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-                path(stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25")
+              span.material-symbols-outlined.icon-lg language
             h3 Over 7,000 Languages
             p(style="color: var(--text-muted);") There are over 7,000 languages spoken worldwide, and many are endangered. Every language lost is a piece of human heritage gone forever.
 
       .about-section(style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; align-items: center; margin-bottom: 4rem; direction: rtl;")
         .about-text(style="direction: ltr;")
-          h2
-            svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="margin-right: 0.5rem; color: var(--primary);")
-              path(stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5")
+          h2.flex.items-center
+            span.material-symbols-outlined(style="margin-right: 0.5rem; color: var(--primary); font-size: 28px;") school
             | For Learners
           p(style="margin-bottom: 1rem; color: var(--text-muted);") Whether you want to reconnect with your heritage language, learn a friend's mother tongue, or explore a new culture, our platform provides free, community-created lessons.
           p(style="color: var(--text-muted);") Browse lessons by language, difficulty, or category. Track your progress, take quizzes, and engage with teachers and fellow learners in our community forum.
         .about-card.card(style="direction: ltr;")
           .card-body.text-center
             .feature-icon-wrapper
-              svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-                path(stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z")
+              span.material-symbols-outlined.icon-lg record_voice_over
             h3 Learn from Native Speakers
             p(style="color: var(--text-muted);") Our teachers are community members who share their language knowledge freely, creating an authentic learning experience.
 
       .about-section(style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; align-items: center;")
         .about-text
-          h2
-            svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="margin-right: 0.5rem; color: var(--primary);")
-              path(stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z")
+          h2.flex.items-center
+            span.material-symbols-outlined(style="margin-right: 0.5rem; color: var(--primary); font-size: 28px;") co_present
             | For Teachers
           p(style="margin-bottom: 1rem; color: var(--text-muted);") Share your language with the world. Create lessons, vocabulary lists, and quizzes. Help preserve your community language while building connections with eager learners.
           p(style="color: var(--text-muted);") As a teacher, you earn points for your contributions and can see the impact of your work through learner progress and engagement.
         .about-card.card
           .card-body.text-center
             .feature-icon-wrapper
-              svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-                path(stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z")
+              span.material-symbols-outlined.icon-lg volunteer_activism
             h3 Make a Difference
             p(style="color: var(--text-muted);") Every lesson you create helps preserve a language and empowers learners to connect with new communities.
 
@@ -65,25 +59,21 @@ block content
       .card-grid
         .feature-card
           .feature-icon-wrapper
-            svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-              path(stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z")
+            span.material-symbols-outlined.icon-lg lock
           h3 Privacy and Safety
           p(style="color: var(--text-muted);") We protect user data and create a safe space for language learning. No financial transactions, just mutual benefit.
         .feature-card
           .feature-icon-wrapper
-            svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-              path(stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z")
+            span.material-symbols-outlined.icon-lg accessibility
           h3 Accessibility
           p(style="color: var(--text-muted);") Our platform is designed to be usable by everyone, regardless of technical ability or disability.
         .feature-card
           .feature-icon-wrapper
-            svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-              path(stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418")
+            span.material-symbols-outlined.icon-lg diversity_3
           h3 Cultural Sensitivity
           p(style="color: var(--text-muted);") We respect all languages and cultures equally. Our community guidelines promote respectful interaction.
         .feature-card
           .feature-icon-wrapper
-            svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-              path(stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z")
+            span.material-symbols-outlined.icon-lg money_off
           h3 Non-Commercial
           p(style="color: var(--text-muted);") This platform is built on mutual benefit, not profit. Knowledge is shared freely for the good of the community.

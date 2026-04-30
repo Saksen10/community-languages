@@ -1,47 +1,50 @@
-//- views/lessons/edit.pug — Edit lesson page
+//- views/lessons/edit.pug — Edit lesson form
 extends ../layout
 
 block content
   section.section
     .container
-      .form-card(style="max-width: 700px;")
+      .form-card(style="max-width: 800px;")
         h2.flex.items-center.justify-center.gap-2
-          svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 28px; height: 28px;")
-            path(stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125")
+          span.material-symbols-outlined(style="font-size: 28px;") edit
           | Edit Lesson
         form(action=`/lessons/${lesson.id}/edit` method="POST")
           .form-group
             label(for="title") Lesson Title
             input#title.form-control(type="text" name="title" required value=lesson.title)
-          .form-group
-            label(for="language_id") Language
-            select#language_id.form-control(name="language_id" required)
-              if languages
-                each lang in languages
-                  option(value=lang.id selected=(lang.id === lesson.language_id))= lang.name
-          .form-group
-            label(for="category_id") Category
-            select#category_id.form-control(name="category_id" required)
-              if categories
-                each cat in categories
-                  option(value=cat.id selected=(cat.id === lesson.category_id))= cat.name
-          .form-group
-            label(for="difficulty") Difficulty Level
-            select#difficulty.form-control(name="difficulty")
-              option(value="beginner" selected=(lesson.difficulty === 'beginner')) Beginner
-              option(value="intermediate" selected=(lesson.difficulty === 'intermediate')) Intermediate
-              option(value="advanced" selected=(lesson.difficulty === 'advanced')) Advanced
+          
           .form-group
             label(for="description") Short Description
-            textarea#description.form-control(name="description" required rows="3")= lesson.description
+            textarea#description.form-control(name="description" rows="3" required)= lesson.description
+            
+          div(style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;")
+            .form-group
+              label(for="language_id") Language
+              select#language_id.form-control(name="language_id" required)
+                if languages
+                  each lang in languages
+                    option(value=lang.id selected=(lesson.language_id == lang.id))= lang.name
+            
+            .form-group
+              label(for="difficulty") Difficulty Level
+              select#difficulty.form-control(name="difficulty" required)
+                option(value="beginner" selected=(lesson.difficulty == 'beginner')) Beginner
+                option(value="intermediate" selected=(lesson.difficulty == 'intermediate')) Intermediate
+                option(value="advanced" selected=(lesson.difficulty == 'advanced')) Advanced
+                
+          .form-group
+            label(for="category_id") Category (optional)
+            select#category_id.form-control(name="category_id")
+              option(value="") No Category
+              if categories
+                each cat in categories
+                  option(value=cat.id selected=(lesson.category_id == cat.id))= cat.name
+
           .form-group
             label(for="content") Lesson Content
-            textarea#content.form-control(name="content" required rows="10")= lesson.content
-          .form-group
-            label(for="vocabulary") Vocabulary
-            textarea#vocabulary.form-control(name="vocabulary" rows="5")= lesson.vocabulary
-          .form-group
-            label(for="media_url") Media URL
-            input#media_url.form-control(type="url" name="media_url" value=(lesson.media_url || ''))
-          button.btn.btn-primary.btn-block(type="submit") Save Changes
-          a.btn.btn-outline.btn-block(href=`/lessons/${lesson.id}` style="margin-top: 12px;") Cancel
+            textarea#content.form-control(name="content" rows="15" required)= lesson.content
+            
+          button.btn.btn-primary.btn-block(type="submit" style="margin-top: 2rem;") Update Lesson
+          
+        div(style="margin-top: 1rem; text-align: center;")
+          a(href=`/lessons/${lesson.id}`) Cancel

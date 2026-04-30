@@ -7,4 +7,6 @@ block content
       h1(style="font-size: 4rem; color: var(--primary); margin-bottom: 16px;")= status || 500
       h2(style="margin-bottom: 16px;")= message || 'Something went wrong'
       p(style="color: var(--text-light); margin-bottom: 32px;") Sorry, the page you are looking for could not be found or an error occurred.
-      a.btn.btn-primary(href="/") ← Back to Home
+      a.btn.btn-primary(href="/")
+        span.material-symbols-outlined.icon-inline arrow_back
+        | Back to Home

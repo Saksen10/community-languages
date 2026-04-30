@@ -5,7 +5,9 @@ block content
   section.section
     .container
       .form-card(style="max-width: 700px;")
-        h2 📝 Create Forum Post
+        h2.flex.items-center.justify-center.gap-2
+          span.material-symbols-outlined(style="font-size: 28px;") edit_document
+          | Create Forum Post
         form(action="/forum/create" method="POST")
           .form-group
             label(for="title") Title
@@ -22,4 +24,6 @@ block content
             textarea#body.form-control(name="body" required rows="8" placeholder="Write your question or discussion here...")
           button.btn.btn-primary.btn-block(type="submit") Post to Forum
         div(style="margin-top: 16px; text-align: center;")
-          a(href="/forum") ← Back to Forum
+          a(href="/forum" style="display: inline-flex; align-items: center; gap: 0.5rem;")
+            span.material-symbols-outlined.icon-inline arrow_back
+            | Back to Forum

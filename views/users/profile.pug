@@ -4,89 +4,106 @@ extends ../layout
 block content
   section.section
     .container
-      //- Profile header
       .profile-header
-        .profile-avatar(style="box-shadow: none;")= user.name ? user.name.charAt(0).toUpperCase() : '?'
+        .profile-avatar
+          | #{user.name.charAt(0).toUpperCase()}
         .profile-info
-          h1(style="margin-bottom: 0.25rem;")= user.name
-          span.badge.role-badge(class=user.role === 'teacher' ? 'badge-warning' : 'badge-primary')= user.role
-          if user.bio
-            p(style="margin-top: 1rem; color: var(--text-muted);")= user.bio
+          div.flex.items-center(style="justify-content: space-between; flex-wrap: wrap; gap: 1rem;")
+            div
+              h1= user.name
+              if user.role === 'teacher'
+                span.badge.badge-success
+                  span.material-symbols-outlined.icon-sm(style="margin-right: 4px; vertical-align: text-bottom;") school
+                  | Teacher
+              else
+                span.badge.badge-primary
+                  span.material-symbols-outlined.icon-sm(style="margin-right: 4px; vertical-align: text-bottom;") menu_book
+                  | Learner
+            
+            if currentUser && currentUser.id === user.id
+              a.btn.btn-outline(href="/settings")
+                span.material-symbols-outlined.icon-inline edit
+                | Edit Profile
+                
+          div(style="margin-top: 1.5rem; display: flex; gap: 2rem; flex-wrap: wrap;")
+            if user.location
+              div.flex.items-center.gap-2.text-muted
+                span.material-symbols-outlined.icon-sm location_on
+                | #{user.location}
+            div.flex.items-center.gap-2.text-muted
+              span.material-symbols-outlined.icon-sm calendar_today
+              | Joined #{new Date(user.created_at).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
+              
+          if user.languages_spoken
+            div(style="margin-top: 1rem;")
+              strong.flex.items-center.gap-2
+                span.material-symbols-outlined.icon-sm language
+                | Speaks:
+              span.text-muted(style="margin-left: 2rem;")= user.languages_spoken
+              
+          if user.languages_learning
+            div(style="margin-top: 0.5rem;")
+              strong.flex.items-center.gap-2
+                span.material-symbols-outlined.icon-sm translate
+                | Learning:
+              span.text-muted(style="margin-left: 2rem;")= user.languages_learning
+              
           .profile-stats
             .profile-stat
-              span.stat-number= user.points || 0
-              span.stat-label Points
-            if user.role === 'teacher' && lessons
+              .stat-number= user.points || 0
+              .stat-label Community Points
+            if user.role === 'teacher'
               .profile-stat
-                span.stat-number= lessons.length
-                span.stat-label Lessons
-            if user.role === 'learner' && completedLessons
+                .stat-number= lessonCount || 0
+                .stat-label Lessons Created
+            if user.role === 'learner'
               .profile-stat
-                span.stat-number= completedLessons.length
-                span.stat-label Completed
-          div(style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;")
-            if user.spoken_languages
-              p.flex.items-center.gap-2.text-muted
-                svg.icon-sm(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-                  path(stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z")
-                | #[strong.text-main Speaks:] #{user.spoken_languages}
-            if user.learning_interests
-              p.flex.items-center.gap-2.text-muted
-                svg.icon-sm(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-                  path(stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25")
-                | #[strong.text-main Learning:] #{user.learning_interests}
-            if user.community_location
-              p.flex.items-center.gap-2.text-muted
-                svg.icon-sm(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-                  path(stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z")
-                  path(stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z")
-                | #[strong.text-main Community:] #{user.community_location}
-            if user.created_at
-              p.flex.items-center.gap-2.text-muted
-                svg.icon-sm(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-                  path(stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5")
-                | #[strong.text-main Joined:] #{new Date(user.created_at).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+                .stat-number= completedLessons ? completedLessons.length : 0
+                .stat-label Lessons Completed
 
-      //- Teacher's lessons
-      if user.role === 'teacher' && lessons && lessons.length
-        .section-header(style="text-align: left; margin-top: 3rem;")
-          h2 Lessons by #{user.name}
-        .card-grid
-          each lesson in lessons
-            .card
-              .card-body
-                h3
-                  a(href=`/lessons/${lesson.id}`)= lesson.title
-                p= lesson.description ? lesson.description.substring(0, 120) + '...' : ''
-                .card-meta
-                  span.badge.badge-primary= lesson.language_name || 'Language'
-                  span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
-              .card-footer
-                span.text-muted= new Date(lesson.created_at).toLocaleDateString('en-GB')
-                a.btn.btn-sm.btn-outline(href=`/lessons/${lesson.id}`) View
+      div(style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 2rem;")
+        //- Main content (Lessons)
+        div
+          if user.role === 'teacher'
+            h2(style="margin-bottom: 1.5rem;") Lessons by #{user.name}
+            if lessons && lessons.length
+              .card-grid(style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));")
+                each lesson in lessons
+                  .card
+                    .card-body
+                      h3
+                        a(href=`/lessons/${lesson.id}`)= lesson.title
+                      .card-meta(style="margin-top: 0.5rem;")
+                        span.badge.badge-primary= lesson.language_name
+                        span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
+                    .card-footer
+                      a.btn.btn-sm.btn-outline(href=`/lessons/${lesson.id}`) View Lesson
+            else
+              .form-card.text-center(style="margin: 0; padding: 2rem;")
+                p.text-muted #{user.name} hasn't created any lessons yet.
+          else
+            h2(style="margin-bottom: 1.5rem;") Learning Progress
+            if completedLessons && completedLessons.length
+              .card-grid(style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));")
+                each lesson in completedLessons
+                  .card
+                    .card-body
+                      h3
+                        a(href=`/lessons/${lesson.id}`)= lesson.title
+                      .card-meta(style="margin-top: 0.5rem;")
+                        span.badge.badge-primary= lesson.language_name
+                        span.badge.badge-success Completed
+                    .card-footer
+                      span.text-muted= new Date(lesson.completed_at).toLocaleDateString('en-GB')
+            else
+              .form-card.text-center(style="margin: 0; padding: 2rem;")
+                p.text-muted #{user.name} hasn't completed any lessons yet.
 
-      //- Learner's completed lessons
-      if user.role === 'learner' && completedLessons && completedLessons.length
-        .section-header(style="text-align: left; margin-top: 3rem;")
-          h2 Completed Lessons
-        .card-grid
-          each lesson in completedLessons
-            .card
-              .card-body
-                h3
-                  a(href=`/lessons/${lesson.id}`)= lesson.title
-                .card-meta
-                  span.badge.badge-primary= lesson.language_name || 'Language'
-                  span.badge.badge-success.flex.items-center.gap-2
-                    svg.icon-sm(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-                      path(stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
-                    | Completed
-              .card-footer
-                span.text-muted= lesson.completed_at ? new Date(lesson.completed_at).toLocaleDateString('en-GB') : ''
-
-      //- Back link
-      div(style="margin-top: 3rem;")
-        a.btn.btn-outline(href="/users")
-          svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
-            path(stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18")
-          | Back to Members
+        //- Sidebar (About)
+        aside
+          h3(style="margin-bottom: 1.5rem;") About #{user.name}
+          .form-card(style="margin: 0; padding: 2rem;")
+            if user.bio
+              p(style="line-height: 1.8;")= user.bio
+            else
+              p.text-muted #{user.name} hasn't written a bio yet.
