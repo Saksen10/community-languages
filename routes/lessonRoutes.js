@@ -98,7 +98,7 @@ router.get('/:id', async (req, res) => {
       FROM lessons l
       JOIN users u ON l.teacher_id = u.id
       JOIN languages lang ON l.language_id = lang.id
-      JOIN categories c ON l.category_id = c.id
+      LEFT JOIN categories c ON l.category_id = c.id
       WHERE l.id = ?
     `, [req.params.id]);
 
@@ -114,17 +114,38 @@ router.get('/:id', async (req, res) => {
     `, [req.params.id]);
 
     // Get quiz questions
-    const [quizQuestions] = await db.query('SELECT * FROM quiz_questions WHERE lesson_id = ?', [req.params.id]);
+    const [quiz] = await db.query('SELECT * FROM quiz_questions WHERE lesson_id = ?', [req.params.id]);
 
-    // Check if current user has completed this lesson
-    let isCompleted = false;
-    let quizResult = null;
+    // Parse vocabulary
+    let vocabulary = [];
+    if (lesson.vocabulary) {
+      vocabulary = lesson.vocabulary.split('\n').filter(v => v.trim()).map(v => {
+        const parts = v.split('-');
+        return {
+          term: parts[0] ? parts[0].trim() : '',
+          translation: parts[1] ? parts[1].trim() : '',
+          notes: parts.slice(2).join('-').trim()
+        };
+      });
+    }
+
+    // Enrollment count
+    const [[enrollmentCountRow]] = await db.query('SELECT COUNT(*) as count FROM lesson_progress WHERE lesson_id = ?', [req.params.id]);
+    const enrollmentCount = enrollmentCountRow.count;
+
+    let userEnrolled = false;
+    let userHasCompletedQuiz = false;
+    let userQuizScore = 0;
+    let isTeacher = false;
+
     if (req.session.user) {
+      isTeacher = req.session.user.id === lesson.teacher_id;
+      
       const [[progress]] = await db.query(
         'SELECT * FROM lesson_progress WHERE learner_id = ? AND lesson_id = ?',
         [req.session.user.id, req.params.id]
       );
-      isCompleted = !!progress;
+      userEnrolled = !!progress;
 
       // Get latest quiz attempt
       const [[attempt]] = await db.query(
@@ -132,12 +153,14 @@ router.get('/:id', async (req, res) => {
         [req.session.user.id, req.params.id]
       );
       if (attempt) {
-        quizResult = { score: attempt.score, total: attempt.total_questions };
+        userHasCompletedQuiz = true;
+        userQuizScore = attempt.score;
       }
     }
 
     res.render('lessons/detail', {
-      title: lesson.title, lesson, tags, quizQuestions, isCompleted, quizResult
+      title: lesson.title, lesson, tags, quiz, vocabulary,
+      userEnrolled, userHasCompletedQuiz, userQuizScore, isTeacher, enrollmentCount
     });
   } catch (err) {
     console.error('Lesson detail error:', err);
@@ -202,20 +225,17 @@ router.post('/:id/delete', isAuthenticated, async (req, res) => {
   }
 });
 
-// POST /lessons/:id/complete — Mark lesson as complete (learner)
-router.post('/:id/complete', isAuthenticated, async (req, res) => {
+// POST /lessons/:id/enroll — Enroll in a lesson
+router.post('/:id/enroll', isAuthenticated, async (req, res) => {
   try {
     await db.query(
       'INSERT IGNORE INTO lesson_progress (learner_id, lesson_id) VALUES (?, ?)',
       [req.session.user.id, req.params.id]
     );
-    // Award points (+5)
-    await db.query('UPDATE users SET points = points + 5 WHERE id = ?', [req.session.user.id]);
-    req.session.user.points = (req.session.user.points || 0) + 5;
-    req.flash('success', 'Lesson marked as complete! +5 points');
+    req.flash('success', 'Successfully enrolled in the lesson!');
     res.redirect(`/lessons/${req.params.id}`);
   } catch (err) {
-    console.error('Complete lesson error:', err);
+    console.error('Enroll lesson error:', err);
     res.redirect(`/lessons/${req.params.id}`);
   }
 });
@@ -226,7 +246,7 @@ router.post('/:id/quiz', isAuthenticated, async (req, res) => {
     const [questions] = await db.query('SELECT * FROM quiz_questions WHERE lesson_id = ?', [req.params.id]);
     let score = 0;
     for (const q of questions) {
-      if (req.body[`q_${q.id}`] === q.correct_option) score++;
+      if (req.body[`answer_${q.id}`] === q.correct_option) score++;
     }
     await db.query(
       'INSERT INTO quiz_attempts (learner_id, lesson_id, score, total_questions) VALUES (?, ?, ?, ?)',

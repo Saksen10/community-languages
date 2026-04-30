@@ -66,8 +66,14 @@ If you install Docker later or share the project with someone who wants to run i
    ```
 3. Docker will download the necessary images (Node and MySQL), build the app image, initialize the database automatically using the files in the `db/` folder, and start the application.
 
-### Step 2: Access the Application
-- Open your web browser and go to: [http://localhost:3000](http://localhost:3000)
+### Step 2: Access the Application & Database
+- **Web Application**: Open your browser and go to [http://localhost:3000](http://localhost:3000)
+- **Database Web UI (phpMyAdmin)**: Open your browser and go to [http://localhost:8080](http://localhost:8080)
+  - **Server**: `mysql`
+  - **Username**: `root`
+  - **Password**: `rootpassword`
+  *(Or use the app user credentials: `appuser` / `apppassword`)*
+- **Direct Database Connection**: If you prefer using clients like DBeaver or MySQL Workbench, connect to `localhost` on port `3307` (user/password same as above).
 
 ### Step 3: Stop the Containers
 - To stop the application, press `Ctrl + C` in the terminal where it's running, or run:
