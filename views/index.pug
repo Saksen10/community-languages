@@ -5,45 +5,59 @@ block content
   //- Hero section
   section.hero
     .container
-      h1 Learn and Share Community Languages
-      p Connect with native speakers, explore new cultures, and help preserve languages that matter. Join our community of learners and teachers sharing knowledge freely.
-      .hero-buttons
-        a.btn.btn-primary(href="/lessons") 📚 Start Learning
-        a.btn.btn-secondary(href="/register") 🎓 Become a Teacher
+      .hero-content
+        h1 Learn and Share Community Languages
+        p Connect with native speakers, explore new cultures, and help preserve languages that matter. Join our community of learners and teachers sharing knowledge freely.
+        .hero-buttons
+          a.btn.btn-primary(href="/lessons")
+            svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+              path(stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25")
+            | Start Learning
+          a.btn.btn-secondary(href="/register")
+            svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+              path(stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5")
+            | Become a Teacher
 
   //- Stats bar
   section.stats-bar
-    .stats-grid
-      div
-        .stat-number= stats ? stats.users : '0'
-        .stat-label Community Members
-      div
-        .stat-number= stats ? stats.lessons : '0'
-        .stat-label Lessons Available
-      div
-        .stat-number= stats ? stats.languages : '0'
-        .stat-label Languages
-      div
-        .stat-number= stats ? stats.teachers : '0'
-        .stat-label Teachers
+    .container
+      .stats-grid
+        .stat-item
+          .stat-number= stats ? stats.users : '0'
+          .stat-label Community Members
+        .stat-item
+          .stat-number= stats ? stats.lessons : '0'
+          .stat-label Lessons Available
+        .stat-item
+          .stat-number= stats ? stats.languages : '0'
+          .stat-label Languages
+        .stat-item
+          .stat-number= stats ? stats.teachers : '0'
+          .stat-label Teachers
 
   //- Features section
-  section.section.features
+  section.section(style="background-color: var(--surface);")
     .container
       .section-header
         h2 Why Community Languages?
         p Preserving linguistic diversity through sharing, exchange, and community building
       .card-grid
-        .card.feature-card
-          .feature-icon 🤝
+        .feature-card
+          .feature-icon-wrapper
+            svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+              path(stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z")
           h3 Share Knowledge
           p Native speakers share their language with learners in a supportive, non-commercial environment.
-        .card.feature-card
-          .feature-icon 🌱
+        .feature-card
+          .feature-icon-wrapper
+            svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+              path(stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09l2.846.813-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z")
           h3 Preserve Heritage
           p Help keep community languages alive for future generations through accessible learning.
-        .card.feature-card
-          .feature-icon 🔗
+        .feature-card
+          .feature-icon-wrapper
+            svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+              path(stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244")
           h3 Build Connections
           p Connect with people from diverse backgrounds and build meaningful community bonds.
 
@@ -70,7 +84,7 @@ block content
 
   //- Languages section
   if languages && languages.length
-    section.section
+    section.section(style="background-color: var(--surface); border-top: 1px solid var(--border);")
       .container
         .section-header
           h2 Explore Languages
@@ -85,10 +99,10 @@ block content
                 a.btn.btn-sm.btn-outline(href=`/lessons?language=${lang.id}`) Browse Lessons
 
   //- CTA section
-  section.section(style="background: var(--bg-white); text-align: center;")
+  section.section(style="text-align: center;")
     .container
-      h2(style="color: var(--primary); margin-bottom: 16px;") Ready to Get Started?
-      p(style="color: var(--text-light); margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto;") Whether you want to learn a new language or share your native tongue, there is a place for you here.
+      h2(style="color: var(--text-main); margin-bottom: 1rem; font-size: 2.25rem;") Ready to Get Started?
+      p(style="color: var(--text-muted); margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; font-size: 1.125rem;") Whether you want to learn a new language or share your native tongue, there is a place for you here.
       .hero-buttons
         a.btn.btn-primary(href="/register") Join Our Community
         a.btn.btn-outline(href="/about") Learn More

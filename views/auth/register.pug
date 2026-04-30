@@ -5,7 +5,10 @@ block content
   section.section
     .container
       .form-card(style="max-width: 600px;")
-        h2 🎓 Create Account
+        h2.flex.items-center.justify-center.gap-2
+          svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 28px; height: 28px;")
+            path(stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.66-1.314")
+          | Create Account
         form(action="/register" method="POST")
           .form-group
             label(for="name") Full Name
@@ -34,6 +37,6 @@ block content
             label(for="community_location") Your Community / Location
             input#community_location.form-control(type="text" name="community_location" placeholder="e.g. London, UK")
           button.btn.btn-primary.btn-block(type="submit") Create Account
-        p(style="text-align: center; margin-top: 16px; color: var(--text-light);")
+        p(style="text-align: center; margin-top: 1rem; color: var(--text-muted);")
           | Already have an account?
           a(href="/login")  Log in here

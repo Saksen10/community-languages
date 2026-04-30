@@ -6,14 +6,16 @@ block content
     .container
       .lesson-detail
         .lesson-detail-header
-          .card-meta(style="margin-bottom: 12px;")
+          .card-meta(style="margin-bottom: 1rem;")
             span.badge.badge-primary= lesson.language_name
             span.badge.badge-warning= lesson.category_name
             span.badge(class=`badge-${lesson.difficulty}`)= lesson.difficulty
           h1= lesson.title
-          p(style="color: var(--text-light); margin-top: 8px;")
+          p(style="color: var(--text-muted); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;")
+            svg.icon-sm(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+              path(stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z")
             | By #[a(href=`/users/${lesson.teacher_id}`)= lesson.teacher_name]
-            |  · #{new Date(lesson.created_at).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+            span  · #{new Date(lesson.created_at).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
 
         //- Lesson content
         .lesson-detail-content
@@ -21,51 +23,78 @@ block content
 
           //- Vocabulary section
           if lesson.vocabulary
-            h3 📝 Vocabulary
+            h3.flex.items-center.gap-2
+              svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                path(stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z")
+              | Vocabulary
             ul.vocab-list
               each item in lesson.vocabulary.split('\n').filter(v => v.trim())
                 li= item
 
           //- Media link
           if lesson.media_url
-            h3 🎥 Media Resource
+            h3.flex.items-center.gap-2
+              svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                path(stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z")
+              | Media Resource
             p
-              a(href=lesson.media_url target="_blank" rel="noopener") Watch / Listen →
+              a.btn.btn-outline.btn-sm.mt-2(href=lesson.media_url target="_blank" rel="noopener") Watch / Listen →
 
           //- Tags
           if tags && tags.length
-            div(style="margin-top: 24px;")
+            div.mt-4.flex(style="flex-wrap: wrap; gap: 0.5rem;")
               each tag in tags
-                a.tag(href=`/lessons?search=${tag.name}` style="margin-right: 6px;") ##{tag.name}
+                a.tag(href=`/lessons?search=${tag.name}`) ##{tag.name}
 
         //- Actions sidebar
         .lesson-sidebar
           //- Mark as complete (learners only)
           if currentUser && currentUser.role === 'learner'
             if isCompleted
-              .badge.badge-accent(style="padding: 10px 20px; font-size: 1rem;") ✅ Lesson Completed
+              .badge.badge-success(style="padding: 0.75rem 1.25rem; font-size: 1rem; width: 100%; justify-content: center; display: flex;")
+                svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="margin-right: 0.5rem;")
+                  path(stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
+                | Lesson Completed
             else
-              form(action=`/lessons/${lesson.id}/complete` method="POST" style="margin-bottom: 16px;")
-                button.btn.btn-primary.btn-block(type="submit") ✅ Mark as Complete
+              form(action=`/lessons/${lesson.id}/complete` method="POST" style="margin-bottom: 1rem;")
+                button.btn.btn-primary.btn-block(type="submit")
+                  svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                    path(stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
+                  | Mark as Complete
 
           //- Edit/Delete (owner only)
           if currentUser && currentUser.id === lesson.teacher_id
-            div(style="display: flex; gap: 12px; margin-bottom: 16px;")
-              a.btn.btn-outline(href=`/lessons/${lesson.id}/edit`) ✏️ Edit
+            div.flex.gap-4.mb-4
+              a.btn.btn-outline(href=`/lessons/${lesson.id}/edit`)
+                svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                  path(stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125")
+                | Edit
               form.confirm-delete(action=`/lessons/${lesson.id}/delete` method="POST" style="display: inline;")
-                button.btn.btn-danger(type="submit") 🗑️ Delete
+                button.btn.btn-danger(type="submit")
+                  svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                    path(stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0")
+                  | Delete
 
         //- Quiz section
         if quizQuestions && quizQuestions.length
           .quiz-section
-            h2 📝 Quiz — Test Your Knowledge
+            h2.flex.items-center.gap-2.mb-4
+              svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                path(stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
+              | Quiz — Test Your Knowledge
             if quizResult !== undefined && quizResult !== null
               .quiz-result(class=quizResult.score >= quizResult.total / 2 ? 'pass' : 'fail')
                 p You scored #{quizResult.score} out of #{quizResult.total}!
                 if quizResult.score >= quizResult.total / 2
-                  p 🎉 Great job!
+                  p.flex.items-center.justify-center.gap-2.mt-2
+                    svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                      path(stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z")
+                    | Great job!
                 else
-                  p 💪 Keep practising!
+                  p.flex.items-center.justify-center.gap-2.mt-2
+                    svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+                      path(stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99")
+                    | Keep practising!
             else
               form(action=`/lessons/${lesson.id}/quiz` method="POST")
                 each question, index in quizQuestions
@@ -86,5 +115,8 @@ block content
                         |  D) #{question.option_d}
                 button.btn.btn-primary(type="submit") Submit Quiz
 
-      div(style="margin-top: 32px;")
-        a.btn.btn-outline(href="/lessons") ← Back to Lessons
+      div.mt-8
+        a.btn.btn-outline(href="/lessons")
+          svg.icon-inline(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor")
+            path(stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18")
+          | Back to Lessons
