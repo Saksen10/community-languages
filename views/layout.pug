@@ -8,6 +8,7 @@ html(lang="en")
     title #{title ? title + ' | ' : ''}Community Languages
     link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
     link(rel="stylesheet" href="/css/style.css")
+    block head
   body
     //- Header navigation
     header.header
@@ -71,3 +72,4 @@ html(lang="en")
         p &copy; #{new Date().getFullYear()} Community Languages: Teach and Learn — Language Connect
 
     script(src="/js/main.js")
+    block scripts
