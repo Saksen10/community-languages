@@ -12,7 +12,7 @@ services:
       MYSQL_USER: appuser
       MYSQL_PASSWORD: apppassword
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql

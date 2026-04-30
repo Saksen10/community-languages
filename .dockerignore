@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+README.md
+SETUP_GUIDE.md
+assessment_docs.md
+task.md
+implementation_plan.md
+walkthrough.md
