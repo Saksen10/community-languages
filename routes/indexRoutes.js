@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const { isAuthenticated } = require('../middleware/auth');
 
 // GET / — Home page
 router.get('/', async (req, res) => {
@@ -44,6 +45,37 @@ router.get('/', async (req, res) => {
 // GET /about — About page
 router.get('/about', (req, res) => {
   res.render('about', { title: 'About' });
+});
+
+// GET /settings — Profile settings page
+router.get('/settings', isAuthenticated, (req, res) => {
+  res.render('users/settings', { title: 'Settings' });
+});
+
+// POST /settings — Update profile settings
+router.post('/settings', isAuthenticated, async (req, res) => {
+  try {
+    const { name, bio, spoken_languages, learning_interests, community_location } = req.body;
+    
+    await db.query(
+      'UPDATE users SET name=?, bio=?, spoken_languages=?, learning_interests=?, community_location=? WHERE id=?',
+      [name, bio || null, spoken_languages || null, learning_interests || null, community_location || null, req.session.user.id]
+    );
+
+    // Update session object
+    req.session.user.name = name;
+    req.session.user.bio = bio || null;
+    req.session.user.spoken_languages = spoken_languages || null;
+    req.session.user.learning_interests = learning_interests || null;
+    req.session.user.community_location = community_location || null;
+
+    req.flash('success', 'Profile settings updated successfully.');
+    res.redirect(`/users/${req.session.user.id}`);
+  } catch (err) {
+    console.error('Settings update error:', err);
+    req.flash('error', 'Could not update settings. Please try again.');
+    res.redirect('/settings');
+  }
 });
 
 module.exports = router;

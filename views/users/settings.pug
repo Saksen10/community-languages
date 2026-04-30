@@ -1,0 +1,48 @@
+//- views/users/settings.pug — User settings/profile edit page
+extends ../layout
+
+block content
+  .page-header
+    .container
+      h1 Profile Settings
+      p Update your personal information and learning preferences
+
+  section.section
+    .container
+      .form-card(style="max-width: 600px;")
+        h2.flex.items-center.justify-center.gap-2
+          span.material-symbols-outlined(style="font-size: 28px;") manage_accounts
+          | Edit Profile
+        form(action="/settings" method="POST")
+          .form-group
+            label(for="name") Full Name
+            input#name.form-control(type="text" name="name" required value=currentUser.name)
+          
+          .form-group
+            label(for="email") Email Address
+            input#email.form-control(type="email" name="email" required value=currentUser.email disabled style="background-color: var(--bg-color); cursor: not-allowed;")
+            small.text-muted(style="display: block; margin-top: 0.5rem;") Email address cannot be changed.
+
+          .form-group
+            label(for="bio") About Me (Bio)
+            textarea#bio.form-control(name="bio" rows="4" placeholder="Tell the community a little about yourself...")= currentUser.bio || ''
+
+          div(style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;")
+            .form-group
+              label(for="spoken_languages") Languages I Speak
+              input#spoken_languages.form-control(type="text" name="spoken_languages" placeholder="e.g. English, Spanish" value=currentUser.spoken_languages || '')
+            
+            .form-group
+              label(for="learning_interests") Languages I'm Learning
+              input#learning_interests.form-control(type="text" name="learning_interests" placeholder="e.g. French, Yoruba" value=currentUser.learning_interests || '')
+
+          .form-group
+            label(for="community_location") Location / Community
+            input#community_location.form-control(type="text" name="community_location" placeholder="e.g. London, UK or Local Community Center" value=currentUser.community_location || '')
+
+          button.btn.btn-primary.btn-block(type="submit" style="margin-top: 2rem;")
+            span.material-symbols-outlined.icon-inline save
+            | Save Changes
+          
+        div(style="margin-top: 1rem; text-align: center;")
+          a(href=`/users/${currentUser.id}`) Cancel

@@ -26,10 +26,10 @@ block content
                 | Edit Profile
                 
           div(style="margin-top: 1.5rem; display: flex; gap: 2rem; flex-wrap: wrap;")
-            if user.location
+            if user.community_location
               div.flex.items-center.gap-2.text-muted
                 span.material-symbols-outlined.icon-sm location_on
-                | #{user.location}
+                | #{user.community_location}
             div.flex.items-center.gap-2.text-muted
               span.material-symbols-outlined.icon-sm calendar_today
               | Joined #{new Date(user.created_at).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
