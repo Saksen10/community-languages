@@ -5,8 +5,8 @@ block content
   section.section
     .container
       .profile-header
-        .profile-avatar
-          | #{user.name.charAt(0).toUpperCase()}
+        .profile-avatar(style="padding: 0; overflow: hidden; background: none; box-shadow: none;")
+          img(src=`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}&backgroundColor=00897b,00acc1,039be5&textColor=ffffff` alt=user.name style="width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);")
         .profile-info
           div.flex.items-center(style="justify-content: space-between; flex-wrap: wrap; gap: 1rem;")
             div
@@ -34,19 +34,19 @@ block content
               span.material-symbols-outlined.icon-sm calendar_today
               | Joined #{new Date(user.created_at).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
               
-          if user.languages_spoken
+          if user.spoken_languages
             div(style="margin-top: 1rem;")
               strong.flex.items-center.gap-2
                 span.material-symbols-outlined.icon-sm language
                 | Speaks:
-              span.text-muted(style="margin-left: 2rem;")= user.languages_spoken
+              span.text-muted(style="margin-left: 2rem;")= user.spoken_languages
               
-          if user.languages_learning
+          if user.learning_interests
             div(style="margin-top: 0.5rem;")
               strong.flex.items-center.gap-2
                 span.material-symbols-outlined.icon-sm translate
                 | Learning:
-              span.text-muted(style="margin-left: 2rem;")= user.languages_learning
+              span.text-muted(style="margin-left: 2rem;")= user.learning_interests
               
           .profile-stats
             .profile-stat
